@@ -1,30 +1,34 @@
-# React + TypeScript + Vite
+# X-Timeline
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Demo URL: <https://x-timeline.web.app>
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 요약
 
-## Expanding the ESLint configuration
+React, TypeScript, styled-components, firebase 학습용 프로젝트
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 주요 기능
 
-- Configure the top-level `parserOptions` property like this:
+- **계정** : 회원가입, 회원탈퇴, 로그인, 로그아웃, 비밀번호 변경, 프로필 수정
+  - firebase authentication으로 구현
+  - react hook form을 사용하여 form data 관리
+  - 프로필 이미지는 storage에 따로 저장해서, 메세지가 조회될 때 같이 보여 줌
+- **메세지** : 작성, 조회, 삭제 가능
+  - firestore에 각 메세지 데이터 저장, storage에 이미지 저장
+  - storage에 저장된 이미지는 URL을 다운받은 후, firestore 메세지 데이터에 포함시켜 저장
+  - home에선 모든 유저의 메세지를 실시간으로 조회 가능하지만, 유저의 프로필 이미지는 변경 후, 새로고침해야 변경된 이미지를 볼 수 있음
+  - profile에선 자신이 작성한 메세지만 조회 가능, 해당 페이지에선 메세지 작성이 불가하기 때문에 실시간 조회는 X
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+---
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 배운 점
+
+---
+
+## 기술 스택
+
+- Frontend : React, TypeScript, styled-components
+- Backend : Firebase Authentication
+- Database : Firestore, Storage(이미지 저장)
+- Deployment : Firebase Deploy
