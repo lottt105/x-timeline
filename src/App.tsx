@@ -6,6 +6,10 @@ import Login from "./routes/login";
 import CreateAccount from "./routes/create-account";
 import styled, { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import { useEffect, useState } from "react";
+import { auth } from "./firebase";
+import Loading from "./components/loading";
+import ProtectedRoute from "./components/protected-route";
 
 const router = createBrowserRouter([
   {
@@ -14,11 +18,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Home />,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
@@ -34,14 +46,17 @@ const router = createBrowserRouter([
 
 const GlobalStyle = createGlobalStyle`
   ${reset};
-  * {
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
   }
   body {
-    background-color: black;
-    color: white;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #eeeff3;
+    color: #4d4d63;
+    font-family: 'Noto Sans KR', sans-serif;
   }
+  /* 스크롤 기능 사용할 때, 스크롤 바 없앰 */
   ::-webkit-scrollbar {
     display: none;
   }
@@ -54,10 +69,21 @@ const Wrapper = styled.div`
 `;
 
 function App() {
+  const [isLoading, setLoading] = useState(true);
+
+  const init = async () => {
+    await auth.authStateReady();
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
     <Wrapper>
       <GlobalStyle />
-      <RouterProvider router={router} />
+      {isLoading ? <Loading /> : <RouterProvider router={router} />}
     </Wrapper>
   );
 }
