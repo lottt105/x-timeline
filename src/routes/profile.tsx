@@ -13,6 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import { TweetType } from "../models/tweet";
+import AuthMenu from "../components/auth-menu";
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,6 +21,22 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   overflow-y: scroll;
+`;
+const MenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: start;
+  /* position: relative; */
+  align-self: end;
+  min-height: 67px;
+`;
+
+const MenuBtn = styled.div`
+  cursor: pointer;
+  svg {
+    width: 25px;
+  }
 `;
 
 const AvatarUpload = styled.label`
@@ -65,6 +82,8 @@ export default function Profile() {
   const [userPhoto, setUserPhoto] = useState(user?.photoURL);
   const [tweets, setTweets] = useState<TweetType[]>([]);
 
+  const [menuToggle, setMenuToggle] = useState<boolean>(false);
+
   const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!user) return;
@@ -78,6 +97,10 @@ export default function Profile() {
         photoURL: avatarUrl,
       });
     }
+  };
+
+  const handleMenuBtnClick = () => {
+    setMenuToggle(!menuToggle);
   };
 
   const fetchTweets = async () => {
@@ -108,6 +131,23 @@ export default function Profile() {
 
   return (
     <Wrapper>
+      <MenuWrapper>
+        <MenuBtn onClick={handleMenuBtnClick}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="w-5 h-5"
+          >
+            <path
+              fillRule="evenodd"
+              d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </MenuBtn>
+        {menuToggle && <AuthMenu email={user?.email} />}
+      </MenuWrapper>
       <AvatarUpload htmlFor="avatar">
         {userPhoto ? (
           <AvatarImg src={userPhoto} />
@@ -122,12 +162,7 @@ export default function Profile() {
           </svg>
         )}
       </AvatarUpload>
-      <AvatarInput
-        onChange={onAvatarChange}
-        id="avatar"
-        type="file"
-        accept="image/*"
-      />
+      <AvatarInput id="avatar" type="file" accept="image/*" />
       <Name>{user?.displayName ?? "Anonymous"}</Name>
       <Tweets>
         {tweets.map((tweet) => (
