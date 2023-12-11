@@ -37,7 +37,6 @@ export default function AuthMenu({
   email: string | null | undefined;
 }) {
   const handlePWUpdateClick = async () => {
-    console.log(email);
     const ok = confirm("비밀번호를 변경하시겠습니까?");
     if (ok && email) {
       try {
