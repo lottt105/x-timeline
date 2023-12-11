@@ -8,7 +8,7 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY,
   authDomain: "x-timeline.firebaseapp.com",
   projectId: "x-timeline",
   storageBucket: "x-timeline.appspot.com",
@@ -17,6 +17,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+console.log(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
