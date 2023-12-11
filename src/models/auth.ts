@@ -5,3 +5,8 @@ export type RegisterType = {
 };
 
 export type LoginType = Omit<RegisterType, "name">;
+
+export type ProfileType = {
+  name: string | null;
+  photoUrl?: string | null;
+};

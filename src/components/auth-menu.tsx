@@ -1,6 +1,14 @@
-import { sendPasswordResetEmail } from "firebase/auth";
+import {
+  EmailAuthCredential,
+  EmailAuthProvider,
+  User,
+  deleteUser,
+  reauthenticateWithCredential,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import styled from "styled-components";
 import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const Menu = styled.div`
   display: flex;
@@ -31,16 +39,14 @@ const Line = styled.div`
   width: 90%;
 `;
 
-export default function AuthMenu({
-  email,
-}: {
-  email: string | null | undefined;
-}) {
+export default function AuthMenu({ user }: { user: User | null }) {
+  const navigate = useNavigate();
+
   const handlePWUpdateClick = async () => {
     const ok = confirm("비밀번호를 변경하시겠습니까?");
-    if (ok && email) {
+    if (ok && user?.email) {
       try {
-        await sendPasswordResetEmail(auth, email);
+        await sendPasswordResetEmail(auth, user.email);
         alert("비밀번호를 변경할 수 있는 메일을 보냈습니다.");
       } catch (e) {
         console.log(e);
@@ -48,11 +54,49 @@ export default function AuthMenu({
     }
   };
 
+  const reAuthentication = async (
+    checkUser: User,
+    password: string,
+    email: string
+  ) => {
+    try {
+      const credential = EmailAuthProvider.credential(email, password);
+      const { user: reAuthenticatedUser } = await reauthenticateWithCredential(
+        checkUser,
+        credential
+      );
+      return reAuthenticatedUser;
+    } catch (e) {
+      alert(e);
+      return;
+    }
+  };
+
+  const handleDeleteUserClick = async () => {
+    const ok = confirm("탈퇴하시겠습니까?");
+    if (!ok) return;
+    const password = prompt("비밀번호를 입력해주세요");
+    if (!(user?.email && password)) return;
+    const reAuthenticatedUser = await reAuthentication(
+      user,
+      password,
+      user.email
+    );
+    if (!reAuthenticatedUser) return;
+    try {
+      await deleteUser(reAuthenticatedUser);
+      alert("회원 탈퇴하셨습니다.");
+      navigate("/login");
+    } catch (e) {
+      alert(e);
+    }
+  };
+
   return (
     <Menu>
       <MenuItem onClick={handlePWUpdateClick}>비밀번호 변경</MenuItem>
       <Line />
-      <MenuItem>회원 탈퇴</MenuItem>
+      <MenuItem onClick={handleDeleteUserClick}>회원 탈퇴</MenuItem>
     </Menu>
   );
 }

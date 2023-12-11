@@ -146,7 +146,7 @@ export default function Profile() {
             />
           </svg>
         </MenuBtn>
-        {menuToggle && <AuthMenu email={user?.email} />}
+        {menuToggle && <AuthMenu user={user} />}
       </MenuWrapper>
       <AvatarUpload htmlFor="avatar">
         {userPhoto ? (
