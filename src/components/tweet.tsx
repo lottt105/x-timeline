@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
-import { deleteObject, getDownloadURL, ref } from "firebase/storage";
+import { deleteObject, ref } from "firebase/storage";
 import { TweetType } from "../models/tweet";
 import moment from "moment";
-import { useEffect, useState } from "react";
 
 const Wrapper = styled.div`
   background-color: white;
@@ -95,11 +94,12 @@ export default function Tweet({
   photo,
   userId,
   username,
+  userPhoto,
   id,
   createdAt,
 }: TweetType) {
   const user = auth.currentUser;
-  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  // const [avatarUrl, setAvatarUrl] = useState<string>("");
 
   const handleDeleteClick = async () => {
     const ok = confirm("이 메세지를 삭제하시겠습니까?");
@@ -116,22 +116,26 @@ export default function Tweet({
     }
   };
 
-  // 트윗 생성될 때, 해당 트윗의 작성자 프로필 이미지 storage에서 가져와서 보여줌
-  useEffect(() => {
-    const fetchAvatarUrl = async () => {
-      const avatarRef = ref(storage, `avatars/${userId}`);
-      const url = await getDownloadURL(avatarRef);
-      setAvatarUrl(url);
-    };
-    fetchAvatarUrl();
-  }, []);
+  // // 트윗 생성될 때, 해당 트윗의 작성자 프로필 이미지 storage에서 가져와서 보여줌
+  // useEffect(() => {
+  //   const fetchAvatarUrl = async () => {
+  //     try {
+  //       const avatarRef = ref(storage, `avatars/${userId}`);
+  //       const url = await getDownloadURL(avatarRef);
+  //       setAvatarUrl(url);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   fetchAvatarUrl();
+  // }, []);
 
   return (
     <Wrapper>
       <Header>
         <User>
-          {avatarUrl ? (
-            <AvatarImg src={avatarUrl} />
+          {userPhoto ? (
+            <AvatarImg src={userPhoto} />
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"

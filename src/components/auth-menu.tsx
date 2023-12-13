@@ -1,5 +1,4 @@
 import {
-  EmailAuthCredential,
   EmailAuthProvider,
   User,
   deleteUser,
@@ -39,7 +38,13 @@ const Line = styled.div`
   width: 90%;
 `;
 
-export default function AuthMenu({ user }: { user: User | null }) {
+export default function AuthMenu({
+  user,
+  handleProfileUpdateClick,
+}: {
+  user: User | null;
+  handleProfileUpdateClick: () => void;
+}) {
   const navigate = useNavigate();
 
   const handlePWUpdateClick = async () => {
@@ -94,6 +99,8 @@ export default function AuthMenu({ user }: { user: User | null }) {
 
   return (
     <Menu>
+      <MenuItem onClick={handleProfileUpdateClick}>프로필 수정</MenuItem>
+      <Line />
       <MenuItem onClick={handlePWUpdateClick}>비밀번호 변경</MenuItem>
       <Line />
       <MenuItem onClick={handleDeleteUserClick}>회원 탈퇴</MenuItem>

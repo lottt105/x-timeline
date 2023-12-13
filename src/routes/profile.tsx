@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { TweetType } from "../models/tweet";
 import AuthMenu from "../components/auth-menu";
+import ProfileUpdateModal from "../components/profile-update-modal";
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,9 +28,8 @@ const MenuWrapper = styled.div`
   flex-direction: column;
   align-items: end;
   justify-content: start;
-  /* position: relative; */
   align-self: end;
-  min-height: 67px;
+  min-height: 125px;
 `;
 
 const MenuBtn = styled.div`
@@ -39,28 +39,27 @@ const MenuBtn = styled.div`
   }
 `;
 
-const AvatarUpload = styled.label`
+const AvatarImg = styled.img`
   width: 80px;
   min-height: 80px;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #e4e5ec;
   display: flex;
-  justify-content: center;
   align-items: center;
-  cursor: pointer;
+  justify-content: center;
+`;
+
+const NoneAvatarImg = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  min-height: 80px;
+  border-radius: 50%;
+  background-color: #e4e5ec;
   svg {
     width: 50px;
   }
-`;
-
-const AvatarImg = styled.img`
-  width: 100%;
-  height: 100%;
-`;
-
-const AvatarInput = styled.input`
-  display: none;
 `;
 
 const Name = styled.span`
@@ -79,20 +78,30 @@ const Tweets = styled.div`
 
 export default function Profile() {
   const user = auth.currentUser;
-  const [userPhoto, setUserPhoto] = useState(user?.photoURL);
+  const [profilePhoto, setProfilePhoto] = useState(user?.photoURL);
+
   const [tweets, setTweets] = useState<TweetType[]>([]);
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
-  const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
+  const handleProfileUpdateClick = () => {
+    setModalOpen(!isModalOpen);
+  };
+
+  const handleSubmitProfileUpdate = async (
+    updateName: string | null | undefined,
+    updateFile: File | null = null
+  ) => {
     if (!user) return;
-    if (files && files.length === 1) {
-      const file = files[0];
+    await updateProfile(user, {
+      displayName: updateName,
+    });
+    if (updateFile) {
       const locationRef = ref(storage, `avatars/${user.uid}`);
-      const result = await uploadBytes(locationRef, file);
+      const result = await uploadBytes(locationRef, updateFile);
       const avatarUrl = await getDownloadURL(result.ref);
-      setUserPhoto(avatarUrl);
+      setProfilePhoto(avatarUrl);
       await updateProfile(user, {
         photoURL: avatarUrl,
       });
@@ -110,14 +119,16 @@ export default function Profile() {
       where("userId", "==", user?.uid),
       limit(25)
     );
-    const snapshot = await getDocs(tweetsQuery);
-    const tweets = snapshot.docs.map((doc) => {
-      const { tweet, createdAt, userId, username, photo } = doc.data();
+    const tweetDocs = await getDocs(tweetsQuery);
+    const tweets = tweetDocs.docs.map((doc) => {
+      const { tweet, createdAt, userId, username, userPhoto, photo } =
+        doc.data();
       return {
         tweet,
         createdAt,
         userId,
         username,
+        userPhoto,
         photo,
         id: doc.id,
       };
@@ -146,12 +157,12 @@ export default function Profile() {
             />
           </svg>
         </MenuBtn>
-        {menuToggle && <AuthMenu user={user} />}
+        {menuToggle && <AuthMenu {...{ user, handleProfileUpdateClick }} />}
       </MenuWrapper>
-      <AvatarUpload htmlFor="avatar">
-        {userPhoto ? (
-          <AvatarImg src={userPhoto} />
-        ) : (
+      {profilePhoto ? (
+        <AvatarImg src={profilePhoto} />
+      ) : (
+        <NoneAvatarImg>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -160,15 +171,21 @@ export default function Profile() {
           >
             <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
           </svg>
-        )}
-      </AvatarUpload>
-      <AvatarInput id="avatar" type="file" accept="image/*" />
+        </NoneAvatarImg>
+      )}
       <Name>{user?.displayName ?? "Anonymous"}</Name>
       <Tweets>
         {tweets.map((tweet) => (
           <Tweet key={tweet.id} {...tweet} />
         ))}
       </Tweets>
+      {isModalOpen && (
+        <ProfileUpdateModal
+          handleCloseClick={handleProfileUpdateClick}
+          profileName={user?.displayName}
+          {...{ profilePhoto, handleSubmitProfileUpdate }}
+        />
+      )}
     </Wrapper>
   );
 }

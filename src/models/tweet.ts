@@ -4,6 +4,7 @@ export type TweetType = {
   tweet: string;
   userId: string;
   username: string;
+  userPhoto?: string;
   createdAt: number;
 };
 

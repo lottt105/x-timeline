@@ -105,6 +105,7 @@ export default function PostTweetForm() {
         createdAt: Date.now(),
         username: user.displayName || "Anonymous",
         userId: user.uid,
+        userPhoto: user.photoURL,
       });
       // 첨부된 이미지가 있는 경우,
       if (file) {
