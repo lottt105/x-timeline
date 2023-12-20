@@ -6,8 +6,9 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import styled from "styled-components";
-import { auth } from "../firebase";
+import { auth, storage } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { deleteObject, ref } from "firebase/storage";
 
 const Menu = styled.div`
   display: flex;
@@ -89,6 +90,8 @@ export default function AuthMenu({
     );
     if (!reAuthenticatedUser) return;
     try {
+      const locationRef = ref(storage, `avatars/${reAuthenticatedUser.uid}`);
+      deleteObject(locationRef);
       await deleteUser(reAuthenticatedUser);
       alert("회원 탈퇴하셨습니다.");
       navigate("/login");
