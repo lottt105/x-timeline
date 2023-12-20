@@ -130,11 +130,15 @@ export default function PostTweetForm() {
   return (
     <Form noValidate onSubmit={handleSubmit(onSubmit)}>
       <TextArea
-        required
         rows={5}
-        maxLength={180}
         placeholder="트윗을 작성해주세요."
-        {...register("tweet")}
+        {...register("tweet", {
+          required: "업로드할 글을 작성해주세요.",
+          maxLength: {
+            value: 180,
+            message: "글은 최대 180자까지 작성 가능합니다.",
+          },
+        })}
       />
       <AttachFileBtn htmlFor="file">
         <svg
