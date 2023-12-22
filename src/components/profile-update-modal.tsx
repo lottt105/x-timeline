@@ -132,7 +132,7 @@ export default function ProfileUpdateModal() {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { value } = e.target;
-    if (!value) return;
+    // if (!value) return;
     setPreviewName(value);
   };
 
@@ -215,7 +215,7 @@ export default function ProfileUpdateModal() {
           onChange={handleProfileNameUpdate}
         />
         <SubmitInput type="submit" value="저장" onClick={handleSubmitClick} />
-        <Text>❗ 이전에 작성한 메세지의 프로필은 변경되지 않습니다.</Text>
+        <Text>❗ 이전에 작성한 메세지의 프로필 이름은 변경되지 않습니다.</Text>
       </Modal>
     </Wrapper>
   );
