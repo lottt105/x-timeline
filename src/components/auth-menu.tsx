@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { auth, storage } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { deleteObject, ref } from "firebase/storage";
+import { useRecoilState } from "recoil";
+import { modalStateAtom } from "../stores/modalAtom";
 
 const Menu = styled.div`
   display: flex;
@@ -39,14 +41,15 @@ const Line = styled.div`
   width: 90%;
 `;
 
-export default function AuthMenu({
-  user,
-  handleProfileUpdateClick,
-}: {
-  user: User | null;
-  handleProfileUpdateClick: () => void;
-}) {
+export default function AuthMenu() {
+  const user = auth.currentUser;
   const navigate = useNavigate();
+
+  const [isModalOpen, setModalOpen] = useRecoilState(modalStateAtom);
+
+  const handleProfileModalOpenClick = () => {
+    setModalOpen(!isModalOpen);
+  };
 
   const handlePWUpdateClick = async () => {
     const ok = confirm("비밀번호를 변경하시겠습니까?");
@@ -102,7 +105,7 @@ export default function AuthMenu({
 
   return (
     <Menu>
-      <MenuItem onClick={handleProfileUpdateClick}>프로필 수정</MenuItem>
+      <MenuItem onClick={handleProfileModalOpenClick}>프로필 수정</MenuItem>
       <Line />
       <MenuItem onClick={handlePWUpdateClick}>비밀번호 변경</MenuItem>
       <Line />

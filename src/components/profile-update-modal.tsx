@@ -1,5 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { updateProfile } from "firebase/auth";
+import { auth, storage } from "../firebase";
+import { useRecoilState } from "recoil";
+import {
+  modalStateAtom,
+  profileNameAtom,
+  profilePhotoAtom,
+} from "../stores/modalAtom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -94,58 +103,73 @@ const SubmitInput = styled.input`
   }
 `;
 
-type PropType = {
-  handleCloseClick: () => void;
-  handleSubmitProfileUpdate: (
-    updateName: string | null | undefined,
-    updateFile?: File | null
-  ) => Promise<void>;
-  profilePhoto: string | null | undefined;
-  profileName: string | null | undefined;
-};
+export default function ProfileUpdateModal() {
+  const user = auth.currentUser;
 
-export default function ProfileUpdateModal({
-  handleCloseClick,
-  handleSubmitProfileUpdate,
-  profilePhoto,
-  profileName,
-}: PropType) {
-  const [previewPhoto, setPreviewPhoto] = useState<
-    string | File | null | undefined
-  >(profilePhoto);
-  const [previewName, setPreviewName] = useState(profileName);
+  const [previewPhoto, setPreviewPhoto] = useRecoilState(profilePhotoAtom);
+  const [previewName, setPreviewName] = useRecoilState(profileNameAtom);
+  const [isModalOpen, setModalOpen] = useRecoilState(modalStateAtom);
 
+  // 업데이트할 이미지 파일 저장용 state
+  const [updatePhoto, setUpdatePhoto] = useState<File | undefined>();
+
+  const handleProfileModalCloseClick = () => {
+    setModalOpen(!isModalOpen);
+  };
+
+  // 이미지 파일 선택 시 호출 됨
   const handleProfilePhotoUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (files && files.length === 1) {
       const file = files[0];
-      setPreviewPhoto(file);
+      setPreviewPhoto(URL.createObjectURL(file));
+      setUpdatePhoto(file);
     }
-    console.log(previewPhoto);
   };
 
+  // 이름 변경 시 호출 됨
   const handleProfileNameUpdate = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { value } = e.target;
     if (!value) return;
     setPreviewName(value);
-    console.log(previewName);
   };
 
+  // 저장 버튼 클릭 시, 사용자 프로필 업데이트 (에러 체크 넣기)
+  const handleSubmitProfileUpdate = async (
+    updateName: string | undefined,
+    updateFile: File | null = null
+  ) => {
+    if (!user) return;
+    await updateProfile(user, {
+      displayName: updateName,
+    });
+    if (updateFile) {
+      const locationRef = ref(storage, `avatars/${user.uid}`);
+      const result = await uploadBytes(locationRef, updateFile);
+      const avatarUrl = await getDownloadURL(result.ref);
+      setPreviewPhoto(avatarUrl);
+      await updateProfile(user, {
+        photoURL: avatarUrl,
+      });
+    }
+  };
+
+  // 저장 버튼 클릭 시, 이미지 파일 유뮤 확인
   const handleSubmitClick = async () => {
-    if (!previewPhoto || typeof previewPhoto === "string") {
+    if (!updatePhoto) {
       await handleSubmitProfileUpdate(previewName);
     } else {
-      await handleSubmitProfileUpdate(previewName, previewPhoto);
+      await handleSubmitProfileUpdate(previewName, updatePhoto);
     }
-    handleCloseClick();
+    handleProfileModalCloseClick();
   };
 
   return (
     <Wrapper>
       <Modal>
-        <CloseModalBtn onClick={handleCloseClick}>
+        <CloseModalBtn onClick={handleProfileModalCloseClick}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"

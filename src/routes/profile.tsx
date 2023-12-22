@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import Tweet from "../components/tweet";
 import { useEffect, useState } from "react";
-import { auth, db, storage } from "../firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { updateProfile } from "firebase/auth";
+import { auth, db } from "../firebase";
 import {
   collection,
   getDocs,
@@ -15,6 +13,12 @@ import {
 import { TweetType } from "../models/tweet";
 import AuthMenu from "../components/auth-menu";
 import ProfileUpdateModal from "../components/profile-update-modal";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  modalStateAtom,
+  profileNameAtom,
+  profilePhotoAtom,
+} from "../stores/modalAtom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -78,35 +82,16 @@ const Tweets = styled.div`
 
 export default function Profile() {
   const user = auth.currentUser;
-  const [profilePhoto, setProfilePhoto] = useState(user?.photoURL);
+  // 모달 관련 전역 state
+  const [profilePhoto, setProfilePhoto] = useRecoilState(profilePhotoAtom);
+  const [profileName, setProfileName] = useRecoilState(profileNameAtom);
+  const isModalOpen = useRecoilValue(modalStateAtom);
 
-  const [tweets, setTweets] = useState<TweetType[]>([]);
-
+  // 메뉴 관련 state
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
-  const handleProfileUpdateClick = () => {
-    setModalOpen(!isModalOpen);
-  };
-
-  const handleSubmitProfileUpdate = async (
-    updateName: string | null | undefined,
-    updateFile: File | null = null
-  ) => {
-    if (!user) return;
-    await updateProfile(user, {
-      displayName: updateName,
-    });
-    if (updateFile) {
-      const locationRef = ref(storage, `avatars/${user.uid}`);
-      const result = await uploadBytes(locationRef, updateFile);
-      const avatarUrl = await getDownloadURL(result.ref);
-      setProfilePhoto(avatarUrl);
-      await updateProfile(user, {
-        photoURL: avatarUrl,
-      });
-    }
-  };
+  // 사용자 본인 작성한 트윗 데이터 리스트
+  const [tweets, setTweets] = useState<TweetType[]>([]);
 
   const handleMenuBtnClick = () => {
     setMenuToggle(!menuToggle);
@@ -137,6 +122,8 @@ export default function Profile() {
   };
 
   useEffect(() => {
+    setProfilePhoto(user?.photoURL);
+    setProfileName(user?.displayName);
     fetchTweets();
   }, []);
 
@@ -157,7 +144,7 @@ export default function Profile() {
             />
           </svg>
         </MenuBtn>
-        {menuToggle && <AuthMenu {...{ user, handleProfileUpdateClick }} />}
+        {menuToggle && <AuthMenu />}
       </MenuWrapper>
       {profilePhoto ? (
         <AvatarImg src={profilePhoto} />
@@ -173,19 +160,13 @@ export default function Profile() {
           </svg>
         </NoneAvatarImg>
       )}
-      <Name>{user?.displayName ?? "Anonymous"}</Name>
+      <Name>{profileName ?? "Anonymous"}</Name>
       <Tweets>
         {tweets.map((tweet) => (
           <Tweet key={tweet.id} {...tweet} />
         ))}
       </Tweets>
-      {isModalOpen && (
-        <ProfileUpdateModal
-          handleCloseClick={handleProfileUpdateClick}
-          profileName={user?.displayName}
-          {...{ profilePhoto, handleSubmitProfileUpdate }}
-        />
-      )}
+      {isModalOpen && <ProfileUpdateModal />}
     </Wrapper>
   );
 }
