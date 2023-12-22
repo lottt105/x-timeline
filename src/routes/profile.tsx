@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
   overflow-y: scroll;
 `;
 const MenuWrapper = styled.div`
@@ -33,7 +33,8 @@ const MenuWrapper = styled.div`
   align-items: end;
   justify-content: start;
   align-self: end;
-  min-height: 125px;
+  min-height: 10px;
+  position: fixed;
 `;
 
 const MenuBtn = styled.div`
@@ -51,6 +52,7 @@ const AvatarImg = styled.img`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
 `;
 
 const NoneAvatarImg = styled.div`
@@ -61,6 +63,7 @@ const NoneAvatarImg = styled.div`
   min-height: 80px;
   border-radius: 50%;
   background-color: #e4e5ec;
+  margin-top: 20px;
   svg {
     width: 50px;
   }
@@ -160,7 +163,7 @@ export default function Profile() {
           </svg>
         </NoneAvatarImg>
       )}
-      <Name>{profileName ?? "Anonymous"}</Name>
+      <Name>{profileName || "Anonymous"}</Name>
       <Tweets>
         {tweets.map((tweet) => (
           <Tweet key={tweet.id} {...tweet} />
