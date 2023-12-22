@@ -5,12 +5,12 @@ export const modalStateAtom = atom<boolean>({
   default: false,
 });
 
-export const profilePhotoAtom = atom<string | undefined>({
+export const profilePhotoAtom = atom<string | null | undefined>({
   key: "profilePhoto",
   default: "",
 });
 
-export const profileNameAtom = atom<string | undefined>({
+export const profileNameAtom = atom<string | null | undefined>({
   key: "profileName",
   default: "",
 });

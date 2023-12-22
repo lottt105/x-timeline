@@ -138,7 +138,7 @@ export default function ProfileUpdateModal() {
 
   // 저장 버튼 클릭 시, 사용자 프로필 업데이트 (에러 체크 넣기)
   const handleSubmitProfileUpdate = async (
-    updateName: string | undefined,
+    updateName: string | null | undefined,
     updateFile: File | null = null
   ) => {
     if (!user) return;
