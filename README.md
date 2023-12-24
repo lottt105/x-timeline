@@ -6,19 +6,17 @@
 
 ## 요약
 
-React, TypeScript, styled-components, firebase 학습용 프로젝트
+React, TypeScript, styled-components, firebase 학습을 위해 진행한 개인 프로젝트로, 타임라인에 메세지를 올려 타인과 공유하는 기능을 가진 웹사이트
 
 ### 주요 기능
 
 - **계정** : 회원가입, 회원탈퇴, 로그인, 로그아웃, 비밀번호 변경, 프로필 수정
-  - firebase authentication으로 구현
-  - react hook form을 사용하여 form data 관리
-  - 프로필 이미지는 storage에 따로 저장해서, 메세지가 조회될 때 같이 보여 줌
+  - create account 페이지에서 회원가입, login 페이지에서 로그인 가능
+  - home, profile 페이지 네비게이션 메뉴에서 로그아웃 가능
+  - profile 페이지의 토글 메뉴에서 프로필 수정, 비밀번호 변경, 회원탈퇴 가능
 - **메세지** : 작성, 조회, 삭제 가능
-  - firestore에 각 메세지 데이터 저장, storage에 이미지 저장
-  - storage에 저장된 이미지는 URL을 다운받은 후, firestore 메세지 데이터에 포함시켜 저장
-  - home에선 모든 유저의 메세지를 실시간으로 조회 가능하지만, 유저의 프로필 이미지는 변경 후, 새로고침해야 변경된 이미지를 볼 수 있음
-  - profile에선 자신이 작성한 메세지만 조회 가능, 해당 페이지에선 메세지 작성이 불가하기 때문에 실시간 조회는 X
+  - home 페이지에서 모든 유저의 메세지를 실시간으로 조회 가능
+  - profile 페이지에서 자신이 작성한 메세지만 조회 가능, 해당 페이지에선 메세지 작성이 불가하기 때문에 실시간 조회는 X
 
 ---
 
@@ -30,5 +28,12 @@ React, TypeScript, styled-components, firebase 학습용 프로젝트
 
 - Frontend : React, TypeScript, styled-components
 - Backend : Firebase Authentication
-- Database : Firestore, Storage(이미지 저장)
+- Database : Firestore, Storage
 - Deployment : Firebase Deploy
+
+---
+
+## 개선사항
+- [ ] 중복되는 스타일, 코드 등을 재사용할 수 있게 리팩토링
+- [ ] 네비게이션 메뉴에서 현재 선택된 페이지 스타일링
+- [ ] 프로필 수정 시, 이전 메세지 이름 변경 안되는 부분 해결
