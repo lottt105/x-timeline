@@ -1,6 +1,6 @@
 # X-Timeline
 
-- Demo URL: <https://x-timeline.web.app>
+- **Demo URL**: <https://x-timeline.web.app>
 
 ---
 
@@ -20,16 +20,12 @@ React, TypeScript, styled-components, firebase 학습을 위해 진행한 개인
 
 ---
 
-## 배운 점
-
----
-
 ## 기술 스택
 
-- Frontend : React, TypeScript, styled-components
-- Backend : Firebase Authentication
-- Database : Firestore, Storage
-- Deployment : Firebase Deploy
+- **Frontend** : React, TypeScript, styled-components
+- **Backend** : Firebase Authentication
+- **Database** : Firestore, Storage
+- **Deployment** : Firebase Hosting
 
 ---
 
