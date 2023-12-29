@@ -6,11 +6,11 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import styled from "styled-components";
-import { auth, storage } from "../firebase";
+import { auth, storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { deleteObject, ref } from "firebase/storage";
 import { useRecoilState } from "recoil";
-import { modalStateAtom } from "../stores/modalAtom";
+import { modalStateAtom } from "../../recoil/atoms/profileModalState";
 
 const Menu = styled.div`
   display: flex;

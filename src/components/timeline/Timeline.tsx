@@ -7,10 +7,10 @@ import {
   query,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import styled from "styled-components";
-import Tweet from "./tweet";
-import { TweetType } from "../models/tweet";
+import Tweet from "../common/Message";
+import { MessageType } from "../../types";
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Timeline() {
-  const [tweets, setTweets] = useState<TweetType[]>([]);
+  const [tweets, setTweets] = useState<MessageType[]>([]);
 
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;

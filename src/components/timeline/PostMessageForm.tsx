@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { auth, db, storage } from "../firebase";
+import { auth, db, storage } from "../../firebase";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useEffect } from "react";
-import { PostTweetType } from "../models/tweet";
+import { PostMessageType } from "../../types";
 
 const Form = styled.form`
   display: grid;
@@ -76,17 +76,17 @@ const SubmitBtn = styled.input`
 `;
 
 // 메세지 작성 컴포넌트
-export default function PostTweetForm() {
+export default function PostMessageForm() {
   const {
     register,
     handleSubmit,
     reset,
     watch,
     formState: { isSubmitting, isSubmitSuccessful },
-  } = useForm<PostTweetType>({
+  } = useForm<PostMessageType>({
     defaultValues: {
       tweet: "",
-      file: null,
+      file: undefined,
     },
   });
 
@@ -94,7 +94,7 @@ export default function PostTweetForm() {
   const watchFile = watch("file");
 
   // 포스트할 때 텍스트는 필수, 이미지는 선택
-  const onSubmit = async (data: PostTweetType) => {
+  const onSubmit = async (data: PostMessageType) => {
     const user = auth.currentUser;
     // 사용자 로그인 정보가 없거나 포스트 중인 경우 중단
     if (!user || isSubmitting) return;
@@ -161,7 +161,7 @@ export default function PostTweetForm() {
         accept="image/*"
         {...register("file")}
       />
-      {watchFile !== null ? (
+      {watchFile ? (
         <PreviewImg src={URL.createObjectURL(watchFile[0])} />
       ) : null}
       <SubmitBtn

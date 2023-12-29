@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Tweet from "../components/tweet";
+import Tweet from "../components/common/Message";
 import { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import {
@@ -10,15 +10,15 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { TweetType } from "../models/tweet";
-import AuthMenu from "../components/auth-menu";
-import ProfileUpdateModal from "../components/profile-update-modal";
+import { MessageType } from "../types";
+import AuthMenu from "../components/profile/ProfileMenu";
+import ProfileUpdateModal from "../components/profile/ProfileUpdateModal";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   modalStateAtom,
   profileNameAtom,
   profilePhotoAtom,
-} from "../stores/modalAtom";
+} from "../recoil/atoms/profileModalState";
 
 const Wrapper = styled.div`
   display: flex;
@@ -76,9 +76,7 @@ const Name = styled.span`
 const Tweets = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
   width: 100%;
-  background-color: white;
   border-radius: 10px;
   overflow-y: scroll;
 `;
@@ -94,7 +92,7 @@ export default function Profile() {
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
 
   // 사용자 본인 작성한 트윗 데이터 리스트
-  const [tweets, setTweets] = useState<TweetType[]>([]);
+  const [tweets, setTweets] = useState<MessageType[]>([]);
 
   const handleMenuBtnClick = () => {
     setMenuToggle(!menuToggle);

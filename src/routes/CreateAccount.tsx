@@ -13,8 +13,8 @@ import {
   Error,
   Switcher,
   SubmitInput,
-} from "../components/auth-components";
-import { RegisterType } from "../models/auth";
+} from "../components/auth/AuthComponents";
+import { RegisterType } from "../types";
 
 export default function CreateAccount() {
   const navigate = useNavigate();

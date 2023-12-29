@@ -13,8 +13,8 @@ import {
   Error,
   Switcher,
   SubmitInput,
-} from "../components/auth-components";
-import { LoginType } from "../models/auth";
+} from "../components/auth/AuthComponents";
+import { LoginType } from "../types";
 
 export default function Login() {
   const navigate = useNavigate();

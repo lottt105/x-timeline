@@ -1,14 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
-import { auth, storage } from "../firebase";
+import { auth, storage } from "../../firebase";
 import { useRecoilState } from "recoil";
 import {
   modalStateAtom,
   profileNameAtom,
   profilePhotoAtom,
-} from "../stores/modalAtom";
+} from "../../recoil/atoms";
 
 const Wrapper = styled.div`
   display: flex;
@@ -119,6 +119,7 @@ export default function ProfileUpdateModal() {
 
   // 이미지 파일 선택 시 호출 됨
   const handleProfilePhotoUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(`first ${previewPhoto}`);
     const { files } = e.target;
     if (files && files.length === 1) {
       const file = files[0];
@@ -147,12 +148,13 @@ export default function ProfileUpdateModal() {
     });
     if (updateFile) {
       const locationRef = ref(storage, `avatars/${user.uid}`);
-      const result = await uploadBytes(locationRef, updateFile);
-      const avatarUrl = await getDownloadURL(result.ref);
-      setPreviewPhoto(avatarUrl);
-      await updateProfile(user, {
-        photoURL: avatarUrl,
-      });
+      await uploadBytes(locationRef, updateFile);
+      // const avatarUrl = await getDownloadURL(result.ref);
+      // console.log(`after ${avatarUrl}`);
+      // setPreviewPhoto(avatarUrl);
+      // await updateProfile(user, {
+      //   photoURL: avatarUrl,
+      // });
     }
   };
 

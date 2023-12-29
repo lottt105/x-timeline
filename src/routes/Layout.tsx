@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import NavigationBar from "./navigation-bar";
+import { NavigationBar } from "../components/navigationbar";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
