@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { colors } from "../../resources/colors";
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -39,7 +40,7 @@ export const Input = styled.input`
   border-radius: 10px;
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid #afafbc;
+  border-bottom: 1px solid ${colors.gray};
   width: 90%;
   font-size: 16px;
 `;
@@ -47,8 +48,8 @@ export const Input = styled.input`
 export const SubmitInput = styled.input`
   border: none;
   border-radius: 20px;
-  background-color: #4d4d63;
-  color: #eeeff3;
+  background-color: ${colors.deep_gray};
+  color: ${colors.background_main};
   margin-top: 20px;
   padding: 10px;
   width: 90%;
@@ -76,6 +77,6 @@ export const Error = styled.span`
 export const Switcher = styled.span`
   margin-top: 20px;
   a {
-    color: #6ba2e6;
+    color: ${colors.deep_blue};
   }
 `;

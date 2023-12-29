@@ -5,22 +5,23 @@ import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useEffect } from "react";
 import { PostMessageType } from "../../types";
+import { colors } from "../../resources/colors";
 
 const Form = styled.form`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   border: none;
-  background-color: #e4e5ec;
+  background-color: ${colors.message_input_background};
 `;
 
 const TextArea = styled.textarea`
   grid-column: 1/4;
   padding: 30px 30px 0;
   font-size: 16px;
-  color: #4d4d63;
+  color: ${colors.deep_gray};
   border: none;
-  background-color: #e4e5ec;
+  background-color: ${colors.message_input_background};
   width: 100%;
   resize: none;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -30,7 +31,7 @@ const TextArea = styled.textarea`
   }
   &:focus {
     outline: none;
-    border-color: #6ba2e6;
+    border-color: ${colors.deep_blue};
   }
 `;
 
@@ -42,7 +43,7 @@ const AttachFileBtn = styled.label`
   cursor: pointer;
   svg {
     width: 20px;
-    fill: #4d4d63;
+    fill: ${colors.deep_gray};
   }
 `;
 
@@ -61,7 +62,7 @@ const AttachFileInput = styled.input`
 const SubmitBtn = styled.input`
   grid-column: 3/4;
   place-self: end;
-  background-color: #6ba2e6;
+  background-color: ${colors.deep_blue};
   color: white;
   border: none;
   border-radius: 10px;

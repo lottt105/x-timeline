@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteObject, ref } from "firebase/storage";
 import { useRecoilState } from "recoil";
 import { modalStateAtom } from "../../recoil/atoms/profileModalState";
+import { colors } from "../../resources/colors";
 
 const Menu = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const MenuItem = styled.div`
 `;
 
 const Line = styled.div`
-  border-bottom: 0.5px solid #4d4d63;
+  border-bottom: 0.5px solid ${colors.deep_gray};
   width: 90%;
 `;
 

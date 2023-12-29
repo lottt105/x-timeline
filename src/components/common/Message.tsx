@@ -4,9 +4,10 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import { MessageType } from "../../types";
 import moment from "moment";
+import { colors } from "../../resources/colors";
 
 const Wrapper = styled.div`
-  background-color: white;
+  background-color: ${colors.message_background};
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -41,7 +42,7 @@ const AvatarImg = styled.img`
   height: 50px;
   overflow: hidden;
   border-radius: 50%;
-  background-color: #e4e5ec;
+  background-color: ${colors.message_input_background};
   justify-content: center;
   align-items: center;
 `;
@@ -70,7 +71,7 @@ const DeleteBtn = styled.button`
   cursor: pointer;
   svg {
     width: 20px;
-    fill: #4d4d63;
+    fill: ${colors.deep_gray};
   }
 `;
 

@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import { colors } from "../resources/colors";
 
 const GlobalStyle = createGlobalStyle`
   ${reset};
@@ -11,8 +12,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: #eeeff3;
-    color: #4d4d63;
+    background-color: ${colors.light_gray};
+    color: ${colors.deep_gray};
     font-family: 'Noto Sans KR', sans-serif;
   }
   

@@ -19,6 +19,7 @@ import {
   profileNameAtom,
   profilePhotoAtom,
 } from "../recoil/atoms/profileModalState";
+import { colors } from "../resources/colors";
 
 const Wrapper = styled.div`
   display: flex;
@@ -62,7 +63,7 @@ const NoneAvatarImg = styled.div`
   width: 80px;
   min-height: 80px;
   border-radius: 50%;
-  background-color: #e4e5ec;
+  background-color: ${colors.message_input_background};
   margin-top: 20px;
   svg {
     width: 50px;

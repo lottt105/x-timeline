@@ -9,6 +9,7 @@ import {
   profileNameAtom,
   profilePhotoAtom,
 } from "../../recoil/atoms";
+import { colors } from "../../resources/colors";
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,13 +45,13 @@ const CloseModalBtn = styled.button`
   cursor: pointer;
   svg {
     width: 25px;
-    fill: #4d4d63;
+    fill: ${colors.deep_gray};
   }
 `;
 
 const Text = styled.span`
   font-size: 11px;
-  color: #4d4d63;
+  color: ${colors.deep_gray};
 `;
 
 const AvatarUpload = styled.label`
@@ -58,7 +59,7 @@ const AvatarUpload = styled.label`
   height: 80px;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #e4e5ec;
+  background-color: ${colors.message_input_background};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,7 +83,7 @@ const Input = styled.input`
   margin: 10px 0;
   border-radius: 10px;
   background-color: transparent;
-  border: 1px solid #afafbc;
+  border: 1px solid ${colors.gray};
   width: 70%;
   font-size: 14px;
 `;
@@ -90,8 +91,8 @@ const Input = styled.input`
 const SubmitInput = styled.input`
   border: none;
   border-radius: 20px;
-  background-color: #4d4d63;
-  color: #eeeff3;
+  background-color: ${colors.deep_gray};
+  color: ${colors.light_gray};
   padding: 10px;
   margin-top: 50px;
   width: 70%;

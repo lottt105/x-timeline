@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import styled from "styled-components";
+import { colors } from "../../resources/colors";
 
 const Menu = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ const MenuItem = styled.div`
   position: relative;
   svg {
     width: 30px;
-    fill: #4d4d63;
+    fill: ${colors.deep_gray};
     padding-bottom: 0.25rem;
   }
   &.log-out {
@@ -38,7 +39,7 @@ const MenuItem = styled.div`
     width: 0;
     height: 0.2rem;
     margin-left: 10%;
-    background-color: #4d4d63;
+    background-color: ${colors.deep_gray};
     transition: width 0.1s linear;
   }
   &.log-out::after {
