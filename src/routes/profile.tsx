@@ -20,6 +20,7 @@ import {
   profilePhotoAtom,
 } from "../recoil/atoms/profileModalState";
 import { colors } from "../resources/colors";
+import Icon from "../resources/icons";
 
 const Wrapper = styled.div`
   display: flex;
@@ -133,18 +134,7 @@ export default function Profile() {
     <Wrapper>
       <MenuWrapper>
         <MenuBtn onClick={handleMenuBtnClick}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5"
-          >
-            <path
-              fillRule="evenodd"
-              d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <Icon icon="menuBtn" />
         </MenuBtn>
         {menuToggle && <AuthMenu />}
       </MenuWrapper>
@@ -152,14 +142,7 @@ export default function Profile() {
         <AvatarImg src={profilePhoto} />
       ) : (
         <NoneAvatarImg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5"
-          >
-            <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
-          </svg>
+          <Icon icon="defaultAvatarImg" />
         </NoneAvatarImg>
       )}
       <Name>{profileName || "Anonymous"}</Name>

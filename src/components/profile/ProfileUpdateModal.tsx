@@ -10,6 +10,7 @@ import {
   profilePhotoAtom,
 } from "../../recoil/atoms";
 import { colors } from "../../resources/colors";
+import Icon from "../../resources/icons";
 
 const Wrapper = styled.div`
   display: flex;
@@ -173,16 +174,8 @@ export default function ProfileUpdateModal() {
     <Wrapper>
       <Modal>
         <CloseModalBtn onClick={handleProfileModalCloseClick}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5"
-          >
-            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-          </svg>
+          <Icon icon="closeModalBtn" />
         </CloseModalBtn>
-
         <Text>※ 프로필 사진 변경 : 이미지 영역 클릭</Text>
         <AvatarUpload htmlFor="avatar">
           {previewPhoto ? (
@@ -194,14 +187,7 @@ export default function ProfileUpdateModal() {
               }
             />
           ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-5 h-5"
-            >
-              <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
-            </svg>
+            <Icon icon="defaultAvatarImg" />
           )}
         </AvatarUpload>
         <AvatarInput
