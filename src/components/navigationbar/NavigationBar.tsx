@@ -85,7 +85,11 @@ export default function NavigationBar() {
     <Menu>
       <Link to="/">
         <MenuItem
-          className={activeContentIndex === "home" ? "active" : ""}
+          className={
+            activeContentIndex === "home" || activeContentIndex === ""
+              ? "active"
+              : ""
+          }
           onClick={() => setActiveContentIndex("home")}
         >
           <Icon icon="home" />
