@@ -8,4 +8,6 @@ export const colors = {
   deep_gray: "#4d4d63",
   deep_blue: "#6ba2e6",
   light_blue: "#8cb6eb",
+
+  active_btn: "#4d4d6390",
 };

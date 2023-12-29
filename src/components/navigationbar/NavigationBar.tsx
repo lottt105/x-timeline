@@ -1,8 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import styled from "styled-components";
 import { colors } from "../../resources/colors";
 import Icon from "../../resources/icons";
+import { useState } from "react";
 
 const Menu = styled.div`
   display: flex;
@@ -51,10 +52,26 @@ const MenuItem = styled.div`
     width: 80%;
     transition: width 0.1s linear;
   }
+
+  &.active {
+    cursor: default;
+    svg {
+      fill: ${colors.active_btn};
+    }
+    &::after {
+      width: 80%;
+      background-color: ${colors.active_btn};
+    }
+  }
 `;
 
 export default function NavigationBar() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const [activeContentIndex, setActiveContentIndex] = useState(
+    pathname.slice(1)
+  );
 
   const handleLogoutClick = async () => {
     const ok = confirm("로그아웃 하실건가요?");
@@ -67,12 +84,18 @@ export default function NavigationBar() {
   return (
     <Menu>
       <Link to="/">
-        <MenuItem>
+        <MenuItem
+          className={activeContentIndex === "home" ? "active" : ""}
+          onClick={() => setActiveContentIndex("home")}
+        >
           <Icon icon="home" />
         </MenuItem>
       </Link>
       <Link to="/profile">
-        <MenuItem>
+        <MenuItem
+          className={activeContentIndex === "profile" ? "active" : ""}
+          onClick={() => setActiveContentIndex("profile")}
+        >
           <Icon icon="profile" />
         </MenuItem>
       </Link>
