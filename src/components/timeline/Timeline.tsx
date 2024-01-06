@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import styled from "styled-components";
-import Tweet from "../common/Message";
+import Message from "../common/Message";
 import { MessageType } from "../../types";
 
 const Wrapper = styled.div`
@@ -56,7 +56,7 @@ export default function Timeline() {
   return (
     <Wrapper>
       {tweets.map((tweet) => (
-        <Tweet key={tweet.id} {...tweet} />
+        <Message key={tweet.id} {...tweet} />
       ))}
     </Wrapper>
   );

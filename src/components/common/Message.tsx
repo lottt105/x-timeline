@@ -6,6 +6,7 @@ import { MessageType } from "../../types";
 import moment from "moment";
 import { colors } from "../../resources/colors";
 import Icon from "../../resources/icons";
+import { memo } from "react";
 
 const Wrapper = styled.div`
   background-color: ${colors.message_background};
@@ -91,7 +92,7 @@ const Photo = styled.img`
   border-radius: 15px;
 `;
 
-export default function Tweet({
+const Message = memo(function Message({
   tweet,
   photo,
   userId,
@@ -143,4 +144,6 @@ export default function Tweet({
       <Row>{photo ? <Photo src={photo} /> : null}</Row>
     </Wrapper>
   );
-}
+});
+
+export default Message;
