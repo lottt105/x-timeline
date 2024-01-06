@@ -8,15 +8,8 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
-import styled from "styled-components";
-import Message from "../common/Message";
 import { MessageType } from "../../types";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-`;
+import MessageContainer from "../message/MessageContainer";
 
 export default function Timeline() {
   const [tweets, setTweets] = useState<MessageType[]>([]);
@@ -53,11 +46,6 @@ export default function Timeline() {
       unsubscribe && unsubscribe();
     };
   }, []);
-  return (
-    <Wrapper>
-      {tweets.map((tweet) => (
-        <Message key={tweet.id} {...tweet} />
-      ))}
-    </Wrapper>
-  );
+
+  return <MessageContainer tweets={tweets} />;
 }

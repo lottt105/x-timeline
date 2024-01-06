@@ -35,6 +35,9 @@ const MenuItem = styled.div`
   margin: 6px 0;
   background-color: white;
   cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const Line = styled.div`
@@ -42,7 +45,7 @@ const Line = styled.div`
   width: 90%;
 `;
 
-export default function AuthMenu() {
+export default function ProfileMenu() {
   const user = auth.currentUser;
   const navigate = useNavigate();
 

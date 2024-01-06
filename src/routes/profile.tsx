@@ -1,18 +1,6 @@
 import styled from "styled-components";
-import Tweet from "../components/common/Message";
 import { useEffect, useState } from "react";
-import { auth, db } from "../firebase";
-import {
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
-import { MessageType } from "../types";
-import AuthMenu from "../components/profile/ProfileMenu";
-import ProfileUpdateModal from "../components/profile/ProfileUpdateModal";
+import { auth } from "../firebase";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   modalStateAtom,
@@ -21,6 +9,11 @@ import {
 } from "../recoil/atoms/profileModalState";
 import { colors } from "../resources/colors";
 import Icon from "../resources/icons";
+import {
+  ProfileMenu,
+  ProfileMessages,
+  ProfileUpdateModal,
+} from "../components/profile";
 
 const Wrapper = styled.div`
   display: flex;
@@ -75,14 +68,6 @@ const Name = styled.span`
   font-size: 22px;
 `;
 
-const Tweets = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 10px;
-  overflow-y: scroll;
-`;
-
 export default function Profile() {
   const user = auth.currentUser;
   // 모달 관련 전역 state
@@ -93,41 +78,13 @@ export default function Profile() {
   // 메뉴 관련 state
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
 
-  // 사용자 본인 작성한 트윗 데이터 리스트
-  const [tweets, setTweets] = useState<MessageType[]>([]);
-
   const handleMenuBtnClick = () => {
     setMenuToggle(!menuToggle);
-  };
-
-  const fetchTweets = async () => {
-    const tweetsQuery = query(
-      collection(db, "tweets"),
-      orderBy("createdAt", "desc"),
-      where("userId", "==", user?.uid),
-      limit(25)
-    );
-    const tweetDocs = await getDocs(tweetsQuery);
-    const tweets = tweetDocs.docs.map((doc) => {
-      const { tweet, createdAt, userId, username, userPhoto, photo } =
-        doc.data();
-      return {
-        tweet,
-        createdAt,
-        userId,
-        username,
-        userPhoto,
-        photo,
-        id: doc.id,
-      };
-    });
-    setTweets(tweets);
   };
 
   useEffect(() => {
     setProfilePhoto(user?.photoURL);
     setProfileName(user?.displayName);
-    fetchTweets();
   }, []);
 
   return (
@@ -136,7 +93,7 @@ export default function Profile() {
         <MenuBtn onClick={handleMenuBtnClick}>
           <Icon icon="menuBtn" />
         </MenuBtn>
-        {menuToggle && <AuthMenu />}
+        {menuToggle && <ProfileMenu />}
       </MenuWrapper>
       {profilePhoto ? (
         <AvatarImg src={profilePhoto} />
@@ -146,11 +103,7 @@ export default function Profile() {
         </NoneAvatarImg>
       )}
       <Name>{profileName || "Anonymous"}</Name>
-      <Tweets>
-        {tweets.map((tweet) => (
-          <Tweet key={tweet.id} {...tweet} />
-        ))}
-      </Tweets>
+      <ProfileMessages />
       {isModalOpen && <ProfileUpdateModal />}
     </Wrapper>
   );

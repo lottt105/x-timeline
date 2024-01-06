@@ -46,6 +46,9 @@ const AttachFileBtn = styled.label`
     width: 20px;
     fill: ${colors.deep_gray};
   }
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const PreviewImg = styled.img`

@@ -7,6 +7,7 @@ import moment from "moment";
 import { colors } from "../../resources/colors";
 import Icon from "../../resources/icons";
 import { memo } from "react";
+import { Button } from "../common/Button";
 
 const Wrapper = styled.div`
   background-color: ${colors.message_background};
@@ -66,13 +67,10 @@ const Date = styled.span`
   font-weight: 300;
 `;
 
-const DeleteBtn = styled.button`
-  background-color: transparent;
-  border: none;
+const DeleteBtn = styled(Button)`
   padding-top: 5px;
   cursor: pointer;
   svg {
-    width: 20px;
     fill: ${colors.deep_gray};
   }
 `;
