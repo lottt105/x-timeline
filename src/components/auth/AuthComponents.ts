@@ -62,7 +62,8 @@ export const SubmitInput = styled.input`
 `;
 
 export const InputErrorText = styled.small`
-  padding-left: 10px;
+  padding-left: 30px;
+  align-self: flex-start;
   color: tomato;
   font-size: 15px;
   display: flex;

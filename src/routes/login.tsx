@@ -1,7 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { auth } from "../firebase";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 import {
@@ -16,6 +15,7 @@ import {
 } from "../components/auth/AuthComponents";
 import { LoginType } from "../types";
 import Icon from "../resources/icons";
+import useAuthError from "../hooks/useAuthError";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -24,10 +24,11 @@ export default function Login() {
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm<LoginType>();
-  const [error, setError] = useState("");
+
+  const [error, setError, reset] = useAuthError("");
 
   const onSubmit = async (data: LoginType) => {
-    setError("");
+    reset();
     const { email, password } = data;
     if (isSubmitting) return;
     try {
@@ -35,7 +36,7 @@ export default function Login() {
       navigate("/");
     } catch (e) {
       if (e instanceof FirebaseError) {
-        setError(e.message);
+        setError(e.code);
       }
     }
   };

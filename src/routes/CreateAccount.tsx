@@ -16,6 +16,7 @@ import {
 } from "../components/auth/AuthComponents";
 import { RegisterType } from "../types";
 import Icon from "../resources/icons";
+import useAuthError from "../hooks/useAuthError";
 
 export default function CreateAccount() {
   const navigate = useNavigate();
@@ -24,10 +25,11 @@ export default function CreateAccount() {
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm<RegisterType>();
-  const [error, setError] = useState("");
+
+  const [error, setError, reset] = useAuthError("");
 
   const onSubmit = async (data: RegisterType) => {
-    setError("");
+    reset();
     const { name, email, password } = data;
     if (isSubmitting) return;
     try {

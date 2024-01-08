@@ -12,7 +12,7 @@ import { deleteObject, ref } from "firebase/storage";
 import { useRecoilState } from "recoil";
 import { modalStateAtom } from "../../recoil/atoms/profileModalState";
 import { colors } from "../../resources/colors";
-import { animate, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Menu = styled(motion.div)`
   display: flex;
