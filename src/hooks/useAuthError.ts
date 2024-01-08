@@ -6,7 +6,6 @@ export default function useAuthError(
   const [error, setError] = useState<string>(initialError);
 
   const onChange = (errorCode: string) => {
-    console.log(errorCode);
     switch (errorCode) {
       case "auth/user-not-found" || "auth/wrong-password":
         setError("이메일 혹은 비밀번호가 일치하지 않습니다.");
