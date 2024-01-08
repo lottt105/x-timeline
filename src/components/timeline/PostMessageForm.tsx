@@ -113,7 +113,8 @@ export default function PostMessageForm() {
         userPhoto: user.photoURL,
       });
       // 첨부된 이미지가 있는 경우,
-      if (file) {
+      if (file && file.length !== 0) {
+        console.log(file);
         // 1. storage에 이미지 업로드
         const locationRef = ref(storage, `tweets/${user.uid}/${doc.id}`);
         const result = await uploadBytes(locationRef, file[0]);
@@ -155,9 +156,9 @@ export default function PostMessageForm() {
         accept="image/*"
         {...register("file")}
       />
-      {watchFile ? (
+      {watchFile && watchFile.length !== 0 && (
         <PreviewImg src={URL.createObjectURL(watchFile[0])} />
-      ) : null}
+      )}
       <SubmitBtn
         type="submit"
         value={isSubmitting ? "포스팅 중..." : "포스트"}
