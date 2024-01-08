@@ -12,8 +12,9 @@ import { deleteObject, ref } from "firebase/storage";
 import { useRecoilState } from "recoil";
 import { modalStateAtom } from "../../recoil/atoms/profileModalState";
 import { colors } from "../../resources/colors";
+import { animate, motion } from "framer-motion";
 
-const Menu = styled.div`
+const Menu = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,7 +109,11 @@ export default function ProfileMenu() {
   };
 
   return (
-    <Menu>
+    <Menu
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <MenuItem onClick={handleProfileModalOpenClick}>프로필 수정</MenuItem>
       <Line />
       <MenuItem onClick={handlePWUpdateClick}>비밀번호 변경</MenuItem>

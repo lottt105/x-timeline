@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "firebase": "^10.1.0",
+    "framer-motion": "^10.17.9",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

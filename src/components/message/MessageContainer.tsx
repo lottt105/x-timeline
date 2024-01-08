@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { MessageType } from "../../types";
 import Message from "./Message";
+import { AnimatePresence } from "framer-motion";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,9 +17,11 @@ export default function MessageContainer({
 }) {
   return (
     <Wrapper>
-      {tweets.map((tweet) => (
-        <Message key={tweet.id} {...tweet} />
-      ))}
+      <AnimatePresence>
+        {tweets.map((tweet) => (
+          <Message key={tweet.id} {...tweet} />
+        ))}
+      </AnimatePresence>
     </Wrapper>
   );
 }

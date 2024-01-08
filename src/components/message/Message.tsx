@@ -8,8 +8,9 @@ import { colors } from "../../resources/colors";
 import Icon from "../../resources/icons";
 import { memo } from "react";
 import { Button } from "../common/Button";
+import { motion } from "framer-motion";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   background-color: ${colors.message_background};
   border-radius: 10px;
   display: flex;
@@ -117,7 +118,7 @@ const Message = memo(function Message({
   };
 
   return (
-    <Wrapper>
+    <Wrapper layout exit={{ y: -30, opacity: 0 }}>
       <Header>
         <User>
           {userPhoto ? (

@@ -11,30 +11,30 @@ import {
 } from "../../recoil/atoms";
 import { colors } from "../../resources/colors";
 import Icon from "../../resources/icons";
+import { motion } from "framer-motion";
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const BackDrop = styled.div`
   position: fixed;
   top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 50%);
-  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 9;
 `;
 
-const Modal = styled.div`
-  position: relative;
+const Modal = styled(motion.div)`
+  position: fixed;
+  top: 15%;
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 12px;
   width: 300px;
-  height: 50%;
   background-color: white;
-  z-index: 3;
+  z-index: 10;
 `;
 
 const CloseModalBtn = styled.button`
@@ -171,8 +171,17 @@ export default function ProfileUpdateModal() {
   };
 
   return (
-    <Wrapper>
-      <Modal>
+    <>
+      <BackDrop onClick={handleProfileModalCloseClick} />
+      <Modal
+        variants={{
+          hidden: { opacity: 0, y: 30 },
+          visible: { opacity: 1, y: 0 },
+        }}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+      >
         <CloseModalBtn onClick={handleProfileModalCloseClick}>
           <Icon icon="closeModalBtn" />
         </CloseModalBtn>
@@ -206,6 +215,6 @@ export default function ProfileUpdateModal() {
         <SubmitInput type="submit" value="저장" onClick={handleSubmitClick} />
         <Text>❗ 이전에 작성한 메세지의 프로필 이름은 변경되지 않습니다.</Text>
       </Modal>
-    </Wrapper>
+    </>
   );
 }

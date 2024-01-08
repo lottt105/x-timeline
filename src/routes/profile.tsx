@@ -14,6 +14,7 @@ import {
   ProfileMessages,
   ProfileUpdateModal,
 } from "../components/profile";
+import { AnimatePresence } from "framer-motion";
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,6 +23,7 @@ const Wrapper = styled.div`
   gap: 25px;
   overflow-y: scroll;
 `;
+
 const MenuWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -93,7 +95,7 @@ export default function Profile() {
         <MenuBtn onClick={handleMenuBtnClick}>
           <Icon icon="menuBtn" />
         </MenuBtn>
-        {menuToggle && <ProfileMenu />}
+        <AnimatePresence>{menuToggle && <ProfileMenu />}</AnimatePresence>
       </MenuWrapper>
       {profilePhoto ? (
         <AvatarImg src={profilePhoto} />
@@ -104,7 +106,7 @@ export default function Profile() {
       )}
       <Name>{profileName || "Anonymous"}</Name>
       <ProfileMessages />
-      {isModalOpen && <ProfileUpdateModal />}
+      <AnimatePresence>{isModalOpen && <ProfileUpdateModal />}</AnimatePresence>
     </Wrapper>
   );
 }
