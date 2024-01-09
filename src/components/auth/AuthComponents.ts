@@ -37,12 +37,17 @@ export const Form = styled.form`
 export const Input = styled.input`
   padding: 10px;
   margin-bottom: 5px;
-  border-radius: 10px;
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid ${colors.gray};
+  border-bottom: 2px solid ${colors.gray};
   width: 90%;
   font-size: 16px;
+  transition: border-color 0.3s linear;
+  &:focus {
+    box-shadow: none;
+    outline: none;
+    border-color: ${colors.deep_gray};
+  }
 `;
 
 export const SubmitInput = styled.input`
