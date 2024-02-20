@@ -6,6 +6,8 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - main
+env:
+  VITE_REACT_APP_FIREBASE_API_KEY: ${{secrets.VITE_REACT_APP_FIREBASE_API_KEY}}
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -14,7 +16,7 @@ jobs:
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.FIREBASE_TOKEN }}"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_X_TIMELINE }}"
           channelId: live
           projectId: x-timeline
