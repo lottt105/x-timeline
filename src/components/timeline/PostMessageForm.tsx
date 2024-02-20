@@ -95,12 +95,13 @@ export default function PostMessageForm() {
     },
   });
 
+  const user = auth.currentUser;
+
   // 업로드 할 이미지 파일 미리보기 용
   const watchFile = watch("file");
 
   // 포스트할 때 텍스트는 필수, 이미지는 선택
   const onSubmit = async (data: PostMessageType) => {
-    const user = auth.currentUser;
     // 사용자 로그인 정보가 없거나 포스트 중인 경우 중단
     if (!user || isSubmitting) return;
     try {

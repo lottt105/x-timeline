@@ -80,6 +80,21 @@ export const Error = styled.span`
   color: tomato;
 `;
 
+export const MoveToMainButton = styled.button`
+  border: none;
+  border-radius: 20px;
+  background-color: ${colors.active_btn};
+  color: ${colors.background_main};
+  margin-top: 5px;
+  padding: 10px;
+  height: auto;
+  width: 90%;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
 export const Switcher = styled.span`
   margin-top: 20px;
   a {

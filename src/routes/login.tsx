@@ -12,6 +12,7 @@ import {
   Error,
   Switcher,
   SubmitInput,
+  MoveToMainButton,
 } from "../components/auth/AuthComponents";
 import { LoginType } from "../types";
 import Icon from "../resources/icons";
@@ -40,6 +41,8 @@ export default function Login() {
       }
     }
   };
+
+  const handleMoveClick = () => navigate("/");
 
   return (
     <Wrapper>
@@ -88,6 +91,9 @@ export default function Login() {
         />
       </Form>
       {error !== "" ? <Error>{error}</Error> : null}
+      <MoveToMainButton onClick={handleMoveClick}>
+        로그인 없이 살펴보기
+      </MoveToMainButton>
       <Switcher>
         계정이 존재하지 않나요?{" "}
         <Link to="/create-account">회원가입 &rarr;</Link>

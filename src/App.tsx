@@ -1,17 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import {
-  CreateAccount,
-  Login,
-  Home,
-  Profile,
-  Layout,
-  ProtectedRoute,
-} from "./routes";
-import { useEffect, useState } from "react";
+import { CreateAccount, Login, Layout, ProtectedRoute } from "./routes";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { auth } from "./firebase";
 import Loading from "./components/common/Loading";
 import { styled } from "styled-components";
 import { RecoilRoot } from "recoil";
+
+const Home = lazy(() => import("./routes/Home"));
+const Profile = lazy(() => import("./routes/Profile"));
 
 const router = createBrowserRouter([
   {
@@ -21,17 +17,19 @@ const router = createBrowserRouter([
       {
         path: "",
         element: (
-          <ProtectedRoute>
+          <Suspense fallback={<Loading />}>
             <Home />
-          </ProtectedRoute>
+          </Suspense>
         ),
       },
       {
         path: "profile",
         element: (
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
+          <Suspense fallback={<Loading />}>
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          </Suspense>
         ),
       },
     ],

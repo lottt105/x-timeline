@@ -31,6 +31,11 @@ const MenuItem = styled.div`
       fill: tomato;
     }
   }
+  &.log-in {
+    svg {
+      fill: ${colors.deep_blue};
+    }
+  }
 
   &::after {
     content: "";
@@ -46,6 +51,9 @@ const MenuItem = styled.div`
   }
   &.log-out::after {
     background-color: tomato;
+  }
+  &.log-in::after {
+    background-color: ${colors.deep_blue};
   }
 
   &:hover::after {
@@ -66,6 +74,8 @@ const MenuItem = styled.div`
 `;
 
 export default function NavigationBar() {
+  const user = auth.currentUser;
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -79,6 +89,10 @@ export default function NavigationBar() {
       await auth.signOut();
       navigate("/login");
     }
+  };
+
+  const handleLoginClick = () => {
+    navigate("/login");
   };
 
   return (
@@ -103,9 +117,15 @@ export default function NavigationBar() {
           <Icon icon="profile" />
         </MenuItem>
       </Link>
-      <MenuItem onClick={handleLogoutClick} className="log-out">
-        <Icon icon="logout" />
-      </MenuItem>
+      {user ? (
+        <MenuItem onClick={handleLogoutClick} className="log-out">
+          <Icon icon="logout" />
+        </MenuItem>
+      ) : (
+        <MenuItem onClick={handleLoginClick} className="log-in">
+          <Icon icon="login" />
+        </MenuItem>
+      )}
     </Menu>
   );
 }
