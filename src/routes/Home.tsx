@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { PostMessageForm, Timeline } from "../components/timeline";
+import {
+  PostMessageForm,
+  Timeline,
+  LoginInformMessage,
+} from "../components/timeline";
 import { auth } from "../firebase";
 
 const Wrapper = styled.div`
@@ -14,7 +18,7 @@ export default function Home() {
 
   return (
     <Wrapper>
-      {user && <PostMessageForm />}
+      {user ? <PostMessageForm /> : <LoginInformMessage />}
       <Timeline />
     </Wrapper>
   );
